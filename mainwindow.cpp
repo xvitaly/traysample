@@ -12,3 +12,21 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    QMainWindow::changeEvent(event);
+    if (event -> type() == QEvent::WindowStateChange)
+    {
+        if(isMinimized())
+        {
+            this->hide();
+        }
+    }
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    //
+}
