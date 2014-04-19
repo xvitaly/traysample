@@ -8,12 +8,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Setting variables...
-    QMenu *trayIconMenu;
-    QAction *minimizeAction;
-    QAction *restoreAction;
-    QAction *quitAction;
+    // Starting custom formCreate() actions...
+    this -> setTrayIconActions();
+    this -> showTrayIcon();
+}
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::setTrayIconActions()
+{
     // Setting actions...
     minimizeAction = new QAction("Minimize", this);
     restoreAction = new QAction("Restore", this);
@@ -21,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Connecting actions to slots...
     connect (minimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
-    connect (restoreAction, SIGNAL(triggered()),this,SLOT(showNormal()));
+    connect (restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
     connect (quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     // Setting system tray's icon menu...
@@ -29,19 +35,16 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIconMenu -> addAction (minimizeAction);
     trayIconMenu -> addAction (restoreAction);
     trayIconMenu -> addAction (quitAction);
-
-    // Setting tray icon...
-    QSystemTrayIcon* systray = new QSystemTrayIcon(this);
-    QIcon icon(":/images/abc.png");
-    systray -> setIcon(icon);
-    systray -> setContextMenu(trayIconMenu);
-    systray -> show();
-
 }
 
-MainWindow::~MainWindow()
+void MainWindow::showTrayIcon()
 {
-    delete ui;
+    // Setting tray icon...
+    trayIcon = new QSystemTrayIcon(this);
+    QIcon trayImage(":/images/abc.png");
+    trayIcon -> setIcon(trayImage);
+    trayIcon -> setContextMenu(trayIconMenu);
+    trayIcon -> show();
 }
 
 void MainWindow::changeEvent(QEvent *event)
