@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include <QMessageBox>
+#include <QGraphicsDropShadowEffect>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,6 +18,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Setting form style...
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    setAttribute(Qt::WA_TranslucentBackground);
+
+    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
+    shadowEffect -> setBlurRadius(9.0);
+    shadowEffect -> setColor(QColor(0, 0, 0, 160));
+    shadowEffect -> setOffset(4.0);
+    ui -> widget -> setGraphicsEffect(shadowEffect);
 }
 
 MainWindow::~MainWindow()
@@ -81,33 +89,33 @@ void MainWindow::changeEvent(QEvent *event)
     QMainWindow::changeEvent(event);
     if (event -> type() == QEvent::WindowStateChange)
     {
-        if(isMinimized())
+        if (isMinimized())
         {
-            this->hide();
+            this -> hide();
         }
     }
 }
 
 void MainWindow::mousePressEvent(QMouseEvent* event)
 {
-    if(event->button() == Qt::LeftButton)
+    if (event -> button() == Qt::LeftButton)
     {
         mMoving = true;
-        mLastMousePosition = event->pos();
+        mLastMousePosition = event -> pos();
     }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
-    if( event->buttons().testFlag(Qt::LeftButton) && mMoving)
+    if( event -> buttons().testFlag(Qt::LeftButton) && mMoving)
     {
-        this->move(this->pos() + (event->pos() - mLastMousePosition));
+        this -> move(this -> pos() + (event -> pos() - mLastMousePosition));
     }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent* event)
 {
-    if(event->button() == Qt::LeftButton)
+    if(event -> button() == Qt::LeftButton)
     {
         mMoving = false;
     }
