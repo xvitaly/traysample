@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
 
+    // Adding shadows for widgets...
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
     shadowEffect -> setBlurRadius(9.0);
     shadowEffect -> setColor(QColor(0, 0, 0, 160));
