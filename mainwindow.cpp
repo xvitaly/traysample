@@ -56,9 +56,6 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
         case QSystemTrayIcon::DoubleClick:
             this -> trayActionExecute();
             break;
-        case QSystemTrayIcon::MiddleClick:
-            this -> trayActionExecute();
-            break;
         default:
             break;
     }
