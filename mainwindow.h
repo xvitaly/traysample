@@ -28,6 +28,7 @@ private slots:
     void trayActionExecute();
     void setTrayIconActions();
     void showTrayIcon();
+    void setFormStyle();
 
 private:
     Ui::MainWindow *ui;

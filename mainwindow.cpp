@@ -10,12 +10,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    ui -> setupUi(this);
 
     // Starting custom formCreate() actions...
     this -> setTrayIconActions();
     this -> showTrayIcon();
+    this -> setFormStyle();
+}
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::setFormStyle()
+{
     // Setting form style...
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -26,11 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     shadowEffect -> setColor(QColor(0, 0, 0, 160));
     shadowEffect -> setOffset(4.0);
     ui -> widget -> setGraphicsEffect(shadowEffect);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }
 
 void MainWindow::setTrayIconActions()
