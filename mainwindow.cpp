@@ -112,7 +112,7 @@ void MainWindow::mousePressEvent(QMouseEvent* event)
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
-    if( event -> buttons().testFlag(Qt::LeftButton) && mMoving)
+    if (event -> buttons().testFlag(Qt::LeftButton) && mMoving)
     {
         this -> move(this -> pos() + (event -> pos() - mLastMousePosition));
     }
@@ -120,7 +120,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
 
 void MainWindow::mouseReleaseEvent(QMouseEvent* event)
 {
-    if(event -> button() == Qt::LeftButton)
+    if (event -> button() == Qt::LeftButton)
     {
         mMoving = false;
     }
