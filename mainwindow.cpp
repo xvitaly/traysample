@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSystemTrayIcon>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // Starting custom formCreate() actions...
     this -> setTrayIconActions();
     this -> showTrayIcon();
+
+    // Setting form style...
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
 }
 
 MainWindow::~MainWindow()
@@ -37,6 +43,27 @@ void MainWindow::setTrayIconActions()
     trayIconMenu -> addAction (quitAction);
 }
 
+void MainWindow::trayActionExecute()
+{
+    QMessageBox::information(this, "TrayIcon", "This is a test message. Replace this by your code!");
+}
+
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+        case QSystemTrayIcon::Trigger:
+        case QSystemTrayIcon::DoubleClick:
+            this -> trayActionExecute();
+            break;
+        case QSystemTrayIcon::MiddleClick:
+            this -> trayActionExecute();
+            break;
+        default:
+            break;
+    }
+}
+
 void MainWindow::showTrayIcon()
 {
     // Setting tray icon...
@@ -44,6 +71,11 @@ void MainWindow::showTrayIcon()
     QIcon trayImage(":/images/abc.png");
     trayIcon -> setIcon(trayImage);
     trayIcon -> setContextMenu(trayIconMenu);
+
+    // Connecting actions to our icon...
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+
+    // Showing icon...
     trayIcon -> show();
 }
 
@@ -59,8 +91,33 @@ void MainWindow::changeEvent(QEvent *event)
     }
 }
 
+void MainWindow::mousePressEvent(QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        mMoving = true;
+        mLastMousePosition = event->pos();
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent* event)
+{
+    if( event->buttons().testFlag(Qt::LeftButton) && mMoving)
+    {
+        this->move(this->pos() + (event->pos() - mLastMousePosition));
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        mMoving = false;
+    }
+}
+
 
 void MainWindow::on_pushButton_clicked()
 {
-    //
+    QMessageBox::information(this, "MainForm", "Button clicked!");
 }
