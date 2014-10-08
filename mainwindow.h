@@ -38,6 +38,7 @@ private:
     QAction *quitAction;
     QSystemTrayIcon *trayIcon;
     QPoint mLastMousePosition;
+    QString calculateHash(QString);
     bool mMoving;
 };
 

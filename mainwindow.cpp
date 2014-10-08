@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 #include <QGraphicsDropShadowEffect>
+#include <QCryptographicHash>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -89,6 +90,12 @@ void MainWindow::showTrayIcon()
     trayIcon -> show();
 }
 
+QString MainWindow::calculateHash(QString Str)
+{
+    QString StrHash = QString(QCryptographicHash::hash(Str.toUtf8(), QCryptographicHash::Sha1).toHex());
+    return StrHash;
+}
+
 void MainWindow::changeEvent(QEvent *event)
 {
     QMainWindow::changeEvent(event);
@@ -129,5 +136,5 @@ void MainWindow::mouseReleaseEvent(QMouseEvent* event)
 
 void MainWindow::on_pushButton_clicked()
 {
-    QMessageBox::information(this, "MainForm", "Button clicked!");
+    QMessageBox::information(this, "MainForm", calculateHash("Button clicked!"));
 }
